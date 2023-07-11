@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { nanoid } from "nanoid";
 
 function App() {
+  // 투두리스트 초기값
   const [newTodo, setNewTodo] = useState("");
   const [todoLists, setTodoLists] = useState([
     { id: nanoid(), content: "자바스크립트 공부하기", likes: 0 },
@@ -22,6 +23,17 @@ function App() {
   };
   // 초기값 : 라이트모드(체크박스해제)로 설정
   const [isCheked, setIsChecked] = useState(false);
+
+  // ---------------------------------------------
+
+  // 구매리스트 초기값
+  const selectList = ["선택하세요", "공부하기", "복습하기", "운동하기"];
+  const [Selected, setSelected] = useState("");
+
+  // 구매물품 선택 시 실행되는 함수
+  const handleSelect = (e) => {
+    setSelected(e.target.value);
+  };
 
   return (
     <body>
@@ -56,9 +68,10 @@ function App() {
           </button>
         </div>
         {/* map의 인자 : map(item, index) */}
-        {todoLists.map((todos) => {
+        {todoLists.map((todos, index) => {
           return (
             <TodoLists key={todos.id}>
+              <span>No. {index + 1} :&nbsp;</span>
               <span> {todos.content} </span>
               <div className="button">
                 {/* 좋아요 기능 */}
@@ -90,6 +103,17 @@ function App() {
             </TodoLists>
           );
         })}
+        <div>
+          <p>----------------------------------------</p>
+          <select name="buyList" onChange={handleSelect} defaultValue={"선택하세요"}>
+            {selectList.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          <div>{Selected !== "선택하세요" ? Selected : ""}</div>
+        </div>
       </TodoContainer>
     </body>
   );
